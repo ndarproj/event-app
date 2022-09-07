@@ -4,7 +4,7 @@
 Event App is a simple Event Management application designed to help you manage your events. An Event is an activity, such as a Party, Function, Conference or Community Meeting and Event App allows you to Create, Edit, Delete and View Events.
 ## Tech Stack
 
-- **Laravel 9.1**
+- **Laravel 9**
 - **PHP 8.1**
 - **MySQL 8.0**
 - **Vite**
