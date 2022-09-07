@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('app');
+    return redirect()->route('events.index');
 });
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');

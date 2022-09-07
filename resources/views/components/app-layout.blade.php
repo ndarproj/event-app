@@ -8,8 +8,10 @@
 </head>
 
 <body class="min-h-screen bg-gray-200 flex flex-col">
-    <nav class="bg-white h-16 p-4 shadow-lg ">
-        <h1>Event App</h1>
+    <nav class="bg-white h-16 py-4 px-6 shadow-lg ">
+        <a href="{{ route('events.index') }}">
+            <h1 class="italic font-bold text-xl ">Event App</h1>
+        </a>
     </nav>
     <main class="container max-w-5xl mx-auto pt-8">
         {{ $slot }}
