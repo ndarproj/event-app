@@ -7,8 +7,13 @@
     @vite('resources/css/app.css')
 </head>
 
-<body>
-    {{ $slot }}
+<body class="min-h-screen bg-gray-200 flex flex-col">
+    <nav class="bg-white h-16 p-4 shadow-lg ">
+        <h1>Event App</h1>
+    </nav>
+    <main class="container max-w-5xl mx-auto pt-8">
+        {{ $slot }}
+    </main>
 </body>
 
 </html>

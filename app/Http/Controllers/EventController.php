@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
+use Illuminate\Support\Facades\Redirect;
 
 class EventController extends Controller
 {
@@ -13,7 +15,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        return view('events.index', [
+            'events' => Event::all(),
+        ]);
     }
 
     /**
@@ -23,7 +27,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('events.create');
     }
 
     /**
@@ -35,6 +39,13 @@ class EventController extends Controller
     public function store(Request $request)
     {
         //
+        $event = Event::create([
+            'name' => $request->name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return Redirect::route('events.show', $event);
     }
 
     /**
@@ -46,6 +57,9 @@ class EventController extends Controller
     public function show($id)
     {
         //
+        return view('events.show', [
+            'event' => Event::findOrFail($id),
+        ]);
     }
 
     /**
@@ -57,6 +71,9 @@ class EventController extends Controller
     public function edit($id)
     {
         //
+        return view('events.edit', [
+            'event' => Event::findOrFail($id),
+        ]);
     }
 
     /**
@@ -79,6 +96,9 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::findOrFail($id);
+        $event->delete();
+
+        return Redirect::route('events.index');
     }
 }
