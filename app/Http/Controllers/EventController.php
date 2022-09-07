@@ -38,14 +38,14 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // TODO: How could we improve this action?
         $event = Event::create([
             'name' => $request->name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
 
-        return Redirect::route('events.show', $event);
+        return redirect()->route('events.show', $event)->with('status', 'Event Created!');
     }
 
     /**
@@ -86,6 +86,7 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         //
+        dd(["Implement update action", $request, $id]);
     }
 
     /**
@@ -99,6 +100,6 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $event->delete();
 
-        return Redirect::route('events.index');
+        return redirect()->route('events.index')->with('status', 'Event Deleted!');
     }
 }

@@ -18,6 +18,8 @@ Route::get('/', function () {
     return redirect()->route('events.index');
 });
 
+// TODO: How could we make this more readable?
+// TODO: How would you implement auth for these routes?
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
 Route::post('/events', [EventController::class, 'store'])->name('events.store');

@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <h2 class="font-bold text-2xl">Edit {{ ucwords($event->name) }}</h2>
     <span class="flex my-6">
         <a href="{{ route('events.show', ['event' => $event->id]) }}">
@@ -9,6 +8,36 @@
             </svg>
         </a>
     </span>
-    <div class="mt-4 -mb-3">
+    <div class="mt-4">
+        <form method="POST" action="{{ route('events.update', ['event' => $event->id]) }}">
+            @method('PUT')
+            @csrf
+            <div class="not-prose relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
+                <div class="relative rounded-xl overflow-auto">
+                    <div class=" overflow-hidden my-8">
+                        <div class="flex flex-col space-y-6 px-4 py-2">
+                            <label class="block">
+                                <input type="text" id="name" name="name" value="{{ $event->name }}"
+                                    class=" rounded-lg mt-1 block w-full" placeholder="Name">
+                            </label>
+                            <div class="flex gap-4">
+                                <label class="block w-full">
+                                    <input id="start_date" type="text" name="start_date"
+                                        value="{{ $event->start_date }}" class="rounded-lg mt-1 block w-full"
+                                        placeholder="Start Date">
+                                </label>
+                                <label class="block w-full">
+                                    <input id="end_date" type="text" name="end_date" value="{{ $event->end_date }}"
+                                        class="rounded-lg mt-1 block w-full" placeholder="End Date">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 px-2 flex">
+                <button class="ml-auto" type="submit"> Save Event </button>
+            </div>
+        </form>
     </div>
 </x-app-layout>
