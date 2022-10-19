@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventFormRequest;
+use App\Http\Requests\EventStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Services\EventService;
 use Illuminate\Support\Facades\Redirect;
 
+//controller should only be receiving request and throwing response
+//i would prevent putting logic in controller as much as possible
 class EventController extends Controller
 {
+    //use dependency injection
+    public function __construct(private EventService $eventService)
+    {
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +25,7 @@ class EventController extends Controller
     public function index()
     {
         return view('events.index', [
-            'events' => Event::all(),
+            'events' => $this->eventService->get()
         ]);
     }
 
@@ -36,14 +45,13 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventFormRequest $request)
     {
-        // TODO: How could we improve this action?
-        $event = Event::create([
-            'name' => $request->name,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-        ]);
+        //  : How could we improve this action?
+        // use HTTP Request and add validation
+        // for a bigger project i would suggest to use repository pattern for maintainability and scalability
+        // i know this is a small app but i'd like to show how it will look like in a bigger project
+        $event = $this->eventService->store($request->safe()->all());
 
         return redirect()->route('events.show', $event)->with('status', 'Event Created!');
     }
@@ -58,7 +66,7 @@ class EventController extends Controller
     {
         //
         return view('events.show', [
-            'event' => Event::findOrFail($id),
+            'event' => $this->eventService->show($id),
         ]);
     }
 
@@ -72,7 +80,7 @@ class EventController extends Controller
     {
         //
         return view('events.edit', [
-            'event' => Event::findOrFail($id),
+            'event' =>  $this->eventService->show($id),
         ]);
     }
 
@@ -83,10 +91,11 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EventFormRequest $request, $id)
     {
-        //
-        dd(["Implement update action", $request, $id]);
+        $this->eventService->update($request->safe()->all(), $id);
+
+        return redirect()->route('events.show', $id)->with('status', 'Event Updated!');
     }
 
     /**
@@ -97,8 +106,7 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::findOrFail($id);
-        $event->delete();
+        $this->eventService->destroy($id);
 
         return redirect()->route('events.index')->with('status', 'Event Deleted!');
     }
